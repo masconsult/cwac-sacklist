@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="custom-rules">
+
+    <target name="dist-dir">
+        <mkdir dir="dist"/>
+    </target>
+
+    <target name="dist-full" depends="dist-dir">
+        <delete file="dist/CWAC-SackOfViewsAdapter-full.zip" />
+        <zip destfile="dist/CWAC-SackOfViewsAdapter-full.zip">
+            <zipfileset
+                dir="."
+                prefix="CWAC-SackOfViewsAdapter"
+                includes="**"
+                excludes="bin/**, dist/**, gen/**, .git/**, .gitignore, demo/bin/**, demo/gen/**"
+            />
+        </zip>
+    </target>
+
+    <target name="dist-lite" depends="dist-dir">
+        <delete file="dist/CWAC-SackOfViewsAdapter-lite.zip" />
+        <zip destfile="dist/CWAC-SackOfViewsAdapter-lite.zip">
+            <zipfileset
+                dir="."
+                prefix="CWAC-SackOfViewsAdapter"
+                includes="**"
+                excludes="bin/**, dist/**, gen/**, .git/**, .gitignore, demo/**"
+            />
+        </zip>
+    </target>
+
+    <target name="jar" depends="debug">
+        <jar
+            destfile="bin/CWAC-SackOfViewsAdapter.jar"
+            basedir="bin/classes"
+        />
+    </target>
+
+    <target name="dist-jar" depends="dist-dir, jar">
+        <delete file="dist/CWAC-SackOfViewsAdapter-jar.zip" />
+        <copy file="bin/CWAC-SackOfViewsAdapter.jar" todir="libs"/>
+        <mkdir dir="tmp" />
+        <mkdir dir="tmp/src" />
+        <zip destfile="dist/CWAC-SackOfViewsAdapter-jar.zip">
+            <zipfileset
+                dir="."
+                prefix="CWAC-SackOfViewsAdapter"
+                includes="**"
+                excludes="tmp/**, bin/**, dist/**, gen/**, .git/**, src/**, .gitignore, demo/**"
+            />
+            <zipfileset
+                dir="tmp"
+                prefix="CWAC-SackOfViewsAdapter"
+                includes="src/"
+            />
+        </zip>
+        <delete dir="tmp"/>
+        <delete file="libs/CWAC-SackOfViewsAdapter.jar" />
+    </target>
+</project>
